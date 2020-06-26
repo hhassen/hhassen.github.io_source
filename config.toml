@@ -1,0 +1,83 @@
+baseURL = "https://hhassen.github.io/"
+DefaultContentLanguage = "en"
+
+theme = "hello-friend-ng"
+
+PygmentsCodeFences = true
+PygmentsStyle = "monokai"
+
+rssLimit  = 10  # Maximum number of items in the RSS feed.
+#copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License." # This message is only used by the RSS template.
+
+googleAnalytics = "UA-143758672-1"
+# disqusShortname = ""
+
+archetypeDir = "archetypes"
+contentDir   = "content"
+dataDir      = "data"
+layoutDir    = "layouts"
+publishDir   = "public"
+
+buildDrafts  = false
+buildFuture  = false
+buildExpired = false
+canonifyURLs = true
+
+enableRobotsTXT = true
+enableGitInfo   = false
+enableEmoji     = true
+enableMissingTranslationPlaceholders = false
+disableRSS     = false
+disableSitemap = false
+disable404     = false
+disableHugoGeneratorInject = false
+
+relativeURLs = true
+title = "Hassen Harzallah"
+dateform        = "Jan 2, 2006"
+dateformShort   = "Jan 2"
+dateformNum     = "2006-01-02"
+dateformNumTime = "2006-01-02 15:04 -0700"
+# Metadata mostly used in document's head
+description = "Personal website by Hassen Harzallah"
+keywords = "homepage, blog, informatics, development, programming"
+images = [""]
+# Directory name of your blog content (default is `content/posts`)
+contentTypeName = "posts"
+# Default theme "light" or "dark"
+defaultTheme = "dark"
+
+[permalinks]
+  posts = "/posts/:year/:month/:title/"
+
+[blackfriday]
+  hrefTargetBlank = true
+
+[params]
+  homeSubtitle = "Looking for opportunities"
+  [params.logo]
+    logoText     = "$ cd ~"
+    logoHomeLink = "/"
+
+  # Social icons
+
+  [[params.social]]
+    name = "github"
+    url  = "https://github.com/hhassen"
+
+  [[params.social]]
+    name = "linkedin"
+    url  = "https://www.linkedin.com/in/hassen-harzallah-b2636a139/"
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about"
+  [[menu.main]]
+    identifier = "blog"
+    name       = "Blog"
+    url        = "/posts"
+  [[menu.main]]
+    identifier = "tags"
+    name       = "Tags"
+    url        = "/tags"
