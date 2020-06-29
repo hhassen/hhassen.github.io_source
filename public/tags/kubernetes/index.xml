@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes on Hassen Harzallah</title>
+    <link>https://hhassen.github.io/tags/kubernetes/</link>
+    <description>Recent content in Kubernetes on Hassen Harzallah</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 28 Jun 2020 07:17:23 +0200</lastBuildDate>
+    
+	<atom:link href="https://hhassen.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes project: deploy a Sentiment Analysis application</title>
+      <link>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</link>
+      <pubDate>Sun, 28 Jun 2020 07:17:23 +0200</pubDate>
+      
+      <guid>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</guid>
+      <description>In this project, I have deployed a Sentiment Analysis application using Kubernetes on the cloud (Amazon EKS).
+The application is composed of 3 main components:
+ Frontend App : uses React and Nginx to provide user interface Web App : developed with Java to communicate with backend Backend App : Logic part develeped with Python  Please find more information in my repo.
+Credits to Rinor Maloku for the code and the original article.</description>
+    </item>
+    
+  </channel>
+</rss>

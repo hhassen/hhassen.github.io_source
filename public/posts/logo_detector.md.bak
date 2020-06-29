@@ -1,0 +1,29 @@
+---
+title: "Cicular logo detector with OpenCV"
+date: 2019-08-21T09:14:23+02:00
+draft: false
+toc: false
+images:
+tags:
+  - Python
+---
+
+Detect circular logos in a video.
+
+[![circular-logo-detector video](https://i.ytimg.com/vi/X0GXfhVPFu0/hqdefault.jpg)](https://youtu.be/X0GXfhVPFu0 "Logo detector video test")
+Example video : [![circular-logo-detector video](https://i.pinimg.com/originals/02/c7/92/02c79212af6b6349f47b8d195a6b0880.png)](https://youtu.be/X0GXfhVPFu0 "Logo detector video test")
+
+
+#### What this script does:
+1. Detect circles in each frame using Hough transform
+2. Extract region of interest ROI which are simply the content of each circle
+3. Extract local features of each ROI and compare them to those of the logo
+4. If we have enough similarities, then:
+    * Draw a box around that circle
+    * Save the box coordinates in a csv file
+
+
+In order to improve performance, this program do a threshold filter to the image before applying the Hough transform. As you can see in the next example, this helps to get rid of false positives.
+[![Hough circle detector workflow](https://i.ibb.co/0nFKXqJ/Compare.jpg)](https://ibb.co/b62F31d)
+
+Please find more information in my [repo](https://github.com/hhassen/circular-logo-detector).

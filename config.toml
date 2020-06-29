@@ -42,10 +42,7 @@ dateformNumTime = "2006-01-02 15:04 -0700"
 description = "Personal website by Hassen Harzallah"
 keywords = "homepage, blog, informatics, development, programming"
 images = [""]
-# Directory name of your blog content (default is `content/posts`)
-contentTypeName = "posts"
-# Default theme "light" or "dark"
-defaultTheme = "dark"
+
 
 [permalinks]
   posts = "/posts/:year/:month/:title/"
@@ -54,7 +51,13 @@ defaultTheme = "dark"
   hrefTargetBlank = true
 
 [params]
-  homeSubtitle = "Looking for opportunities"
+  homeSubtitle = "I'm passionate about technology and computers. I am looking for new opportunities"
+
+  # Default theme "light" or "dark"
+  defaultTheme = "light"
+
+  # Directory name of your blog content (default is `content/posts`)
+  contentTypeName = "posts"
   [params.logo]
     logoText     = "$ cd ~"
     logoHomeLink = "/"
@@ -64,6 +67,10 @@ defaultTheme = "dark"
   [[params.social]]
     name = "github"
     url  = "https://github.com/hhassen"
+
+  [[params.social]]
+    name = "medium"
+    url  = "https://medium.com/@hhtun21"
 
   [[params.social]]
     name = "linkedin"

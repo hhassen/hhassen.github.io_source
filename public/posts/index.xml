@@ -1,0 +1,67 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Hassen Harzallah</title>
+        <link>https://hhassen.github.io/posts/</link>
+        <description>Recent content in Posts on Hassen Harzallah</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <lastBuildDate>Sun, 28 Jun 2020 07:17:23 +0200</lastBuildDate>
+        <atom:link href="https://hhassen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Kubernetes project: deploy a Sentiment Analysis application</title>
+            <link>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</link>
+            <pubDate>Sun, 28 Jun 2020 07:17:23 +0200</pubDate>
+            
+            <guid>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</guid>
+            <description>In this project, I have deployed a Sentiment Analysis application using Kubernetes on the cloud (Amazon EKS).
+The application is composed of 3 main components:
+ Frontend App : uses React and Nginx to provide user interface Web App : developed with Java to communicate with backend Backend App : Logic part develeped with Python  Please find more information in my repo.
+Credits to Rinor Maloku for the code and the original article.</description>
+            <content type="html"><![CDATA[<p><img src="https://github.com/hhassen/k8s-app-sentiment/raw/master/images/App_sent_analyser_demo.gif" alt=""></p>
+<p>In this project, I have deployed a Sentiment Analysis application using Kubernetes on the cloud (Amazon EKS).</p>
+<p>The application is composed of 3 main components:</p>
+<ol>
+<li><strong>Frontend App</strong> : uses React and Nginx to provide user interface</li>
+<li><strong>Web App</strong> : developed with Java to communicate with backend</li>
+<li><strong>Backend App</strong> : Logic part develeped with Python</li>
+</ol>
+<p>Please find more information in my <a href="https://github.com/hhassen/k8s-app-sentiment">repo</a>.</p>
+<p><img src="https://github.com/hhassen/k8s-app-sentiment/raw/master/images/App_sent_analyser_architecture.gif" alt=""></p>
+<p>Credits to <a href="https://medium.freecodecamp.org/learn-kubernetes-in-under-3-hours-a-detailed-guide-to-orchestrating-containers-114ff420e882">Rinor Maloku</a> for the code and the original article.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Initial Commit</title>
+            <link>https://hhassen.github.io/posts/2019/07/initial-commit/</link>
+            <pubDate>Sat, 13 Jul 2019 22:17:23 +0200</pubDate>
+            
+            <guid>https://hhassen.github.io/posts/2019/07/initial-commit/</guid>
+            <description>Hello World!
+                    </description>
+            <content type="html"><![CDATA[<p><strong>Hello World!</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://i.gifer.com/Vho.gif" alt="partyparrot"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>

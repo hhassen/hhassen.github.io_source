@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hassen Harzallah</title>
+    <link>https://hhassen.github.io/</link>
+    <description>Recent content on Hassen Harzallah</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 28 Jun 2020 07:17:23 +0200</lastBuildDate>
+    
+	<atom:link href="https://hhassen.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes project: deploy a Sentiment Analysis application</title>
+      <link>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</link>
+      <pubDate>Sun, 28 Jun 2020 07:17:23 +0200</pubDate>
+      
+      <guid>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</guid>
+      <description>In this project, I have deployed a Sentiment Analysis application using Kubernetes on the cloud (Amazon EKS).
+The application is composed of 3 main components:
+ Frontend App : uses React and Nginx to provide user interface Web App : developed with Java to communicate with backend Backend App : Logic part develeped with Python  Please find more information in my repo.
+Credits to Rinor Maloku for the code and the original article.</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://hhassen.github.io/about/</link>
+      <pubDate>Fri, 26 Jun 2020 19:22:13 +0200</pubDate>
+      
+      <guid>https://hhassen.github.io/about/</guid>
+      <description>Hi, my name is Hassen Harzallah. I&amp;rsquo;m passionate about computers and new technology.
+I&amp;rsquo;m also AWS Solutions Architect Associate certified.
+M.Sc. Engineering &amp;lsquo;19 @ ENSTA Paris + @ ENIT
+import skills Containerized environments = [ Kubernetes, Docker] AWS Cloud Linux = [ Debian, CentOS, Ubuntu] Automation &amp;amp; IaaC = [ Ansible, Terraform, CloudFormation] Progamming = [ Python, Javascript, C, C++ ] Machine Learning = [ Sklearn, Keras, Tensorflow] Monitoring &amp;amp; Logging = [ Elasticseach, Logstash, Kibana, Grafana] Security = [ Forensics, Reverse Engineering, Cryptography] import Misc Design = [ Adobe Photoshop, Adobe Premiere, 3Ds Max, V-ray] ❤ Kubernetes, Cloud, Linux, OSS</description>
+    </item>
+    
+    <item>
+      <title>Initial Commit</title>
+      <link>https://hhassen.github.io/posts/2019/07/initial-commit/</link>
+      <pubDate>Sat, 13 Jul 2019 22:17:23 +0200</pubDate>
+      
+      <guid>https://hhassen.github.io/posts/2019/07/initial-commit/</guid>
+      <description>Hello World!
+                    </description>
+    </item>
+    
+  </channel>
+</rss>
