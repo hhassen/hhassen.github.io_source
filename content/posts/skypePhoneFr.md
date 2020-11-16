@@ -22,7 +22,8 @@ Le numéro a le format français suivant : **+33 09 xx xx xx**. Lorsque quelqu'u
 2.  Demander à quelqu'un en France d'**appeler ce nouveau numéro pour le tester**. Normalement, vous recevez un appel Skype sur votre téléphone.
 3. **Activer le renvoi d'appels inconditionnel** de votre puce française (ex: SFR) vers votre numéro Skype.
 Donc, lorsque quelqu'un vous appelle sur votre numéro français (**+33 06 xx xx xx**), vous recevez cet appel directement sur votre Skype.
-|![renvoi_appel](https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/_gen/images/transfer_appel_inconditionnel.png)
+
+![renvoi_appel](https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/transfer_appel_inconditionnel.png)
 
 4. Une fois le renvoi d'appels est activé, **enlever votre puce française** de votre téléphone. Vous n'en avez plus besoin maintenant.
 5. Demander à quelqu'un en France d'appeler votre numéro français (+33 06 xx xx xx). Normalement, vous recevez cet appel sur Skype. Et voila!
