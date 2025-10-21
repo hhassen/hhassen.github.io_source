@@ -112,6 +112,11 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: build
     steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.HUGO_GITHUB_TOKEN }}
+          fetch-depth: 0
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -128,3 +133,11 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: 'Deploy from hhassen.github.io_source'
+      
+      - name: Update public folder in source repository
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/
+          git diff --staged --quiet || git commit -m "Update public folder after deployment [skip ci]"
+          git push
