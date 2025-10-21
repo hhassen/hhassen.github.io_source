@@ -1,23 +1,42 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Posts on Hassen Harzallah</title>
-        <link>https://hhassen.github.io/posts/</link>
-        <description>Recent content in Posts on Hassen Harzallah</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <lastBuildDate>Sun, 28 Jun 2020 07:17:23 +0200</lastBuildDate>
-        <atom:link href="https://hhassen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-        
-        <item>
-            <title>Kubernetes project: deploy a Sentiment Analysis application</title>
-            <link>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</link>
-            <pubDate>Sun, 28 Jun 2020 07:17:23 +0200</pubDate>
-            
-            <guid>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</guid>
-            <description>In this project, I have deployed a Sentiment Analysis application using Kubernetes on the cloud (Amazon EKS).
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Hassen Harzallah</title><link>https://hhassen.github.io/posts/</link><description>Recent content in Posts on Hassen Harzallah</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 29 Dec 2021 10:10:23 +0200</lastBuildDate><atom:link href="https://hhassen.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Monitoring to detect incidents</title><link>https://hhassen.github.io/posts/2021/12/monitoring-to-detect-incidents/</link><pubDate>Wed, 29 Dec 2021 10:10:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2021/12/monitoring-to-detect-incidents/</guid><description>Recently, I have worked with a team developing a Spring Boot application. The application is deployed as a Java container in AWS and the logs are stored in Cloudwatch. The application was put behind an Nginx reverse proxy and Nginx logs are also stored in Cloudwatch. Every thing was going fine until they started adding new features that caused very high response times on the prod. Problems become more and more recurrent, developers were exhausted dealing with all this headache and users were very unsatisfied.</description><content type="html"><![CDATA[<p>Recently, I have worked with a team developing a Spring Boot application. The application is deployed as a Java container in AWS and the logs are stored in Cloudwatch.
+The application was put behind an Nginx reverse proxy and Nginx logs are also stored in Cloudwatch.
+<img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/architecture.png" alt="application architecture"></p>
+<p>Every thing was going fine until they started adding new features that caused very high response times on the prod. Problems become more and more recurrent, developers were exhausted dealing with all this headache and users were very unsatisfied.</p>
+<p>I tried to help this team and the first step was to see what is going on. I found out that even developers struggle to get the real cause of problems and they often have to pass hours reading thousands of line of logs in Cloudwatch and the fixes they made were usually temporary.</p>
+<p>For me, there was missing a crucial element for the functioning of any development team : monitoring. We had a lot of data in our possession but nothing was done to get useful information from that.</p>
+<p>Thus, I decided to implement a monitoring solution using <code>Elasticsearch</code> and <code>Kibana</code>. First, I worked on sending all the information from Cloudwatch logs to Elasticsearch. I used <code>Filebeat</code> with the following input module : <code>AWS Cloudwatch Input</code> (<a href="https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-input-aws-cloudwatch.html)">https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-input-aws-cloudwatch.html)</a>. This module calls AWS API regularly to get new lines of logs.</p>
+<p>In addition, I found out that an Actuator endpoint was available and developers use it to expose application metrics using <code>Prometheus</code> format. I used <code>Metricbeat</code> to scrap those metrics and send them to Elasticsearch (<a href="https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-prometheus.html)">https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-prometheus.html)</a>.</p>
+<p>After ingesting and filtering data using <code>Logstash</code> and storing them in <code>Elasticsearch</code>, came the rewarding part of creating visualitions and dashboard in <code>Kibana</code>.</p>
+<p>I have made out 2 different types of Dashboards:</p>
+<h3 id="nginx-dashboard-user-experience-metrics">Nginx dashboard: user experience metrics</h3>
+<p>This dashboard contains metrics about the user experience : number of requests, 500 errors, response time, visitors per day, OS, most visited URLs&hellip;
+<img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/nginx_dashboard.png" alt="nginx dashboard"></p>
+<h3 id="prometheus-dashboard-application-metrics">Prometheus dashboard: application metrics</h3>
+<p>This dashboard contains metrics about the java application : methods execution time, http requests, JVM metric, 500 errors by URL and by Stacktrace&hellip;
+<img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/prometheus_jvm.png" alt="prometheus dashboard">
+<img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/prometheus_500.png" alt="prometheus 500 errors dashboard"></p>
+<h3 id="realcase-situation-of-detecting-an-incident">Realcase situation of detecting an incident</h3>
+<p>Using this monitoring tool, I went back to a recent incident in Production and I tried to detect it just using the metrics I have.</p>
+<p>Response time:
+<img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/response_time_incident.png" alt="incident detection response time">
+Response time by HTTP path:
+<img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/response_time_http_incident.png" alt="incident detection response time by http path">
+Execution time of java methods:
+<img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/response_time_methods_incident.png" alt="incident detection execution time of methods"></p>
+<p>As I plotted the response time for that particular period, and guess what !! They went really up. I have also found out the following information:</p>
+<ul>
+<li><strong>Response time</strong> was already <strong>increasing</strong> for several days due to increasing number of users.</li>
+<li>The business team <strong>reported the problem</strong> 1 day after incident.</li>
+<li><strong>Developers were stuck</strong> for days not knowing were all of this came. They were manually <strong>reading logs</strong> in Cloudwatch.</li>
+<li>A <strong>DB upsize</strong> was done 2 days after the incident was revealed and it helped improving situation.</li>
+<li>A <strong>hotfix</strong> deliverd 4 days after the incident has been effective solving the problem.</li>
+</ul>
+<p>As we can see the monitoring solution does effectively help detect and even anticipate problems, as well as measuring the impact of adopted measures.</p>
+<p>Now, with the information we have, we finally have <strong>happy developers and satisfied users</strong>.</p>
+]]></content></item><item><title>Kubernetes project: deploy a Sentiment Analysis application</title><link>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</link><pubDate>Sun, 28 Jun 2020 07:17:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2020/06/kubernetes-project-deploy-a-sentiment-analysis-application/</guid><description>In this project, I have deployed a Sentiment Analysis application using Kubernetes on the cloud (Amazon EKS).
 The application is composed of 3 main components:
- Frontend App : uses React and Nginx to provide user interface Web App : developed with Java to communicate with backend Backend App : Logic part develeped with Python  Please find more information in my repo.
-Credits to Rinor Maloku for the code and the original article.</description>
-            <content type="html"><![CDATA[<p><img src="https://github.com/hhassen/k8s-app-sentiment/raw/master/images/App_sent_analyser_demo.gif" alt=""></p>
+Frontend App : uses React and Nginx to provide user interface Web App : developed with Java to communicate with backend Backend App : Logic part develeped with Python Please find more information in my repo.
+Credits to Rinor Maloku for the code and the original article.</description><content type="html"><![CDATA[<p><img src="https://github.com/hhassen/k8s-app-sentiment/raw/master/images/App_sent_analyser_demo.gif" alt=""></p>
 <p>In this project, I have deployed a Sentiment Analysis application using Kubernetes on the cloud (Amazon EKS).</p>
 <p>The application is composed of 3 main components:</p>
 <ol>
@@ -28,18 +47,56 @@ Credits to Rinor Maloku for the code and the original article.</description>
 <p>Please find more information in my <a href="https://github.com/hhassen/k8s-app-sentiment">repo</a>.</p>
 <p><img src="https://github.com/hhassen/k8s-app-sentiment/raw/master/images/App_sent_analyser_architecture.gif" alt=""></p>
 <p>Credits to <a href="https://medium.freecodecamp.org/learn-kubernetes-in-under-3-hours-a-detailed-guide-to-orchestrating-containers-114ff420e882">Rinor Maloku</a> for the code and the original article.</p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>Initial Commit</title>
-            <link>https://hhassen.github.io/posts/2019/07/initial-commit/</link>
-            <pubDate>Sat, 13 Jul 2019 22:17:23 +0200</pubDate>
-            
-            <guid>https://hhassen.github.io/posts/2019/07/initial-commit/</guid>
-            <description>Hello World!
-                    </description>
-            <content type="html"><![CDATA[<p><strong>Hello World!</strong></p>
+]]></content></item><item><title>Transférer vos appels sur Skype</title><link>https://hhassen.github.io/posts/2019/07/transf%C3%A9rer-vos-appels-sur-skype/</link><pubDate>Thu, 18 Jul 2019 20:11:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2019/07/transf%C3%A9rer-vos-appels-sur-skype/</guid><description>Procédure pour recevoir vos appels téléphoniques en dehors de l&amp;rsquo;union européen (ex: Tunisie), en utilisant un numéro français Skype.
+Remarque: cette méthode ne vous permet que de recevoir les appels, elle ne vous permet pas d&amp;rsquo;appeler vers la France.
+Procédure: Acheter un numéro français Skype ( environ 8€/mois) https://www.skype.com/fr/features/online-number/ Le numéro a le format français suivant : +33 09 xx xx xx. Lorsque quelqu&amp;rsquo;un appelle ce numéro, vous recevez un appel Skype normal (appel non téléphonique).</description><content type="html"><![CDATA[<p>Procédure pour recevoir vos appels téléphoniques en dehors de l&rsquo;union européen (ex: Tunisie), en utilisant un numéro français Skype.</p>
+<p><strong>Remarque:</strong> cette méthode ne vous permet que de recevoir les appels, elle <strong>ne vous permet pas</strong> d&rsquo;appeler vers la France.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://media2.giphy.com/media/ff6IT8IzC5hEQ/giphy.gif" alt="telephone_gif"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="procédure">Procédure:</h2>
+<ol>
+<li>
+<p><strong>Acheter un numéro français Skype</strong> ( environ 8€/mois) <a href="https://www.skype.com/fr/features/online-number/">https://www.skype.com/fr/features/online-number/</a>
+Le numéro a le format français suivant : <strong>+33 09 xx xx xx</strong>. Lorsque quelqu&rsquo;un appelle ce numéro, vous recevez un appel Skype normal (appel non téléphonique). Donc, il faut que votre téléphone soit connecté sur Wifi ou sur 4G.</p>
+</li>
+<li>
+<p>Demander à quelqu&rsquo;un en France d&rsquo;<strong>appeler ce nouveau numéro pour le tester</strong>. Normalement, vous recevez un appel Skype sur votre téléphone.</p>
+</li>
+<li>
+<p><strong>Activer le renvoi d&rsquo;appels inconditionnel</strong> de votre puce française (ex: SFR) vers votre numéro Skype.
+Donc, lorsque quelqu&rsquo;un vous appelle sur votre numéro français (<strong>+33 06 xx xx xx</strong>), vous recevez cet appel directement sur votre Skype.</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/transfer_appel_inconditionnel.png" alt="renvoi_appel"></p>
+<ol start="4">
+<li>Une fois le renvoi d&rsquo;appels est activé, <strong>enlever votre puce française</strong> de votre téléphone. Vous n&rsquo;en avez plus besoin maintenant.</li>
+<li>Demander à quelqu&rsquo;un en France d&rsquo;appeler votre numéro français (+33 06 xx xx xx). Normalement, vous recevez cet appel sur Skype. Et voila!</li>
+</ol>
+<h2 id="je-nai-plus-besoin-de-mon-numéro-skype">Je n&rsquo;ai plus besoin de mon numéro Skype:</h2>
+<ol>
+<li>Résilier votre offre Skype.</li>
+<li>Metter la puce française et désactiver le renvoi d&rsquo;appel inconditionnel.</li>
+</ol>
+<p>.</p>
+]]></content></item><item><title>Initial Commit</title><link>https://hhassen.github.io/posts/2019/07/initial-commit/</link><pubDate>Sat, 13 Jul 2019 22:17:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2019/07/initial-commit/</guid><description>Hello World!</description><content type="html"><![CDATA[<p><strong>Hello World!</strong></p>
 <table>
 <thead>
 <tr>
@@ -60,8 +117,4 @@ Credits to Rinor Maloku for the code and the original article.</description>
 </tr>
 </tbody>
 </table>
-]]></content>
-        </item>
-        
-    </channel>
-</rss>
+]]></content></item></channel></rss>

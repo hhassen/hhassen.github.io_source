@@ -1,24 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>general on Hassen Harzallah</title>
-    <link>https://hhassen.github.io/tags/general/</link>
-    <description>Recent content in general on Hassen Harzallah</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 13 Jul 2019 22:17:23 +0200</lastBuildDate>
-    
-	<atom:link href="https://hhassen.github.io/tags/general/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Initial Commit</title>
-      <link>https://hhassen.github.io/posts/2019/07/initial-commit/</link>
-      <pubDate>Sat, 13 Jul 2019 22:17:23 +0200</pubDate>
-      
-      <guid>https://hhassen.github.io/posts/2019/07/initial-commit/</guid>
-      <description>Hello World!
-                    </description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>general on Hassen Harzallah</title><link>https://hhassen.github.io/tags/general/</link><description>Recent content in general on Hassen Harzallah</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 18 Jul 2019 20:11:23 +0200</lastBuildDate><atom:link href="https://hhassen.github.io/tags/general/index.xml" rel="self" type="application/rss+xml"/><item><title>Transférer vos appels sur Skype</title><link>https://hhassen.github.io/posts/2019/07/transf%C3%A9rer-vos-appels-sur-skype/</link><pubDate>Thu, 18 Jul 2019 20:11:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2019/07/transf%C3%A9rer-vos-appels-sur-skype/</guid><description>Procédure pour recevoir vos appels téléphoniques en dehors de l&amp;rsquo;union européen (ex: Tunisie), en utilisant un numéro français Skype.
+Remarque: cette méthode ne vous permet que de recevoir les appels, elle ne vous permet pas d&amp;rsquo;appeler vers la France.
+Procédure: Acheter un numéro français Skype ( environ 8€/mois) https://www.skype.com/fr/features/online-number/ Le numéro a le format français suivant : +33 09 xx xx xx. Lorsque quelqu&amp;rsquo;un appelle ce numéro, vous recevez un appel Skype normal (appel non téléphonique).</description></item><item><title>Initial Commit</title><link>https://hhassen.github.io/posts/2019/07/initial-commit/</link><pubDate>Sat, 13 Jul 2019 22:17:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2019/07/initial-commit/</guid><description>Hello World!</description></item></channel></rss>
