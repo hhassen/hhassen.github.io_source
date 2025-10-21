@@ -1,4 +1,83 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Hassen Harzallah</title><link>https://hhassen.github.io/posts/</link><description>Recent content in Posts on Hassen Harzallah</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 29 Dec 2021 10:10:23 +0200</lastBuildDate><atom:link href="https://hhassen.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Monitoring to detect incidents</title><link>https://hhassen.github.io/posts/2021/12/monitoring-to-detect-incidents/</link><pubDate>Wed, 29 Dec 2021 10:10:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2021/12/monitoring-to-detect-incidents/</guid><description>Recently, I have worked with a team developing a Spring Boot application. The application is deployed as a Java container in AWS and the logs are stored in Cloudwatch. The application was put behind an Nginx reverse proxy and Nginx logs are also stored in Cloudwatch. Every thing was going fine until they started adding new features that caused very high response times on the prod. Problems become more and more recurrent, developers were exhausted dealing with all this headache and users were very unsatisfied.</description><content type="html"><![CDATA[<p>Recently, I have worked with a team developing a Spring Boot application. The application is deployed as a Java container in AWS and the logs are stored in Cloudwatch.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Hassen Harzallah</title><link>https://hhassen.github.io/posts/</link><description>Recent content in Posts on Hassen Harzallah</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 11 Sep 2025 10:00:00 +0000</lastBuildDate><atom:link href="https://hhassen.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>My Bitcoins almost disappeared forever: Fixing a Crashing Blockstream Green Lightning Wallet</title><link>https://hhassen.github.io/posts/2025/09/my-bitcoins-almost-disappeared-forever-fixing-a-crashing-blockstream-green-lightning-wallet/</link><pubDate>Thu, 11 Sep 2025 10:00:00 +0000</pubDate><guid>https://hhassen.github.io/posts/2025/09/my-bitcoins-almost-disappeared-forever-fixing-a-crashing-blockstream-green-lightning-wallet/</guid><description>I recently faced every Bitcoiner’s nightmare: I had just bought my first Bitcoin, set up Blockstream Green with a Lightning account, and suddenly the app on my Android phone started crashing immediately at startup. My Lightning funds were locked inside my phone, and unlike with on-chain Bitcoin, writing down my seed phrase wasn’t enough — Lightning state lives on-device.
+I contacted Blockstream support right away. Unfortunately, the process was long, and their answers didn’t solve anything:</description><content type="html"><![CDATA[<p>I recently faced every Bitcoiner’s nightmare: I had just bought my first Bitcoin, set up Blockstream Green with a Lightning account, and suddenly the app on my Android phone started crashing immediately at startup. My Lightning funds were locked inside my phone, and unlike with on-chain Bitcoin, writing down my seed phrase wasn’t enough — Lightning state lives on-device.</p>
+<p>I contacted Blockstream support right away. Unfortunately, the process was long, and their answers didn’t solve anything:</p>
+<ul>
+<li>They suggested updating the app — but I was already on the latest version.</li>
+<li>They suggested making a backup — but for Lightning, a seed alone won’t restore your state.</li>
+</ul>
+<p>That’s when I realized: if I wanted to save my coins, I needed to find a solution myself.</p>
+<hr>
+<h2 id="step-1-back-up-everything-before-testing">Step 1: Back up everything before testing</h2>
+<p>Before experimenting, I made sure to back up the app data. This was critical, because my Lightning channels lived inside my phone.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb backup -apk -obb -shared com.greenaddress.greenbits_android_wallet
+</span></span></code></pre></div><p>This backup contained a SQLite database with encrypted_data, pin_data, wallet_id, and network. It confirmed that both on-chain (electrum-mainnet) and Lightning (greenlight-mainnet) information was stored locally.</p>
+<hr>
+<h2 id="step-2-attempting-decryption-and-knowing-when-to-stop">Step 2: Attempting decryption (and knowing when to stop)</h2>
+<p>I explored whether I could decrypt the stored data using my PIN and the app’s own encryption scheme:</p>
+<p>🔐 <strong>Encryption Algorithm Overview</strong></p>
+<ul>
+<li>Key derivation: PBKDF2 with HMAC-SHA512</li>
+<li>Inputs: PIN + salt (base64-decoded) + 100,000 iterations</li>
+<li>Output: 32-byte AES-256 key</li>
+<li>Decryption: AES-256 in CBC mode; IV = first 16 bytes of <code>encrypted_data</code></li>
+</ul>
+<p>I tried writing a Python script to decrypt this, but after a few attempts I decided not to push further. Decrypting wasn’t the real goal — restoring a working app environment was.</p>
+<hr>
+<h2 id="step-3-investigating-crash-logs-with-adb">Step 3: Investigating crash logs with ADB</h2>
+<p>Next, I turned to logs.</p>
+<p>Find the package name:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb shell pm list packages | grep green
+</span></span><span style="display:flex;"><span>com.blockstream.green
+</span></span></code></pre></div><p>Find the running process ID:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb shell pidof com.blockstream.green
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">12345</span>
+</span></span></code></pre></div><p>Dump logs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb logcat --pid<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> &gt; green_crash_log.txt
+</span></span></code></pre></div><p>The logs revealed the issue:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java.lang.IllegalArgumentException: Invalid notification <span style="color:#f92672">(</span>no valid small icon<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>Translation: the app was trying to start a foreground service (likely for Lightning operations) but failed because the required <strong>notification icon</strong> was missing. This was a coding bug — not data loss.</p>
+<hr>
+<h2 id="step-4-reinstall-attempts-and-support-dead-ends">Step 4: Reinstall attempts and support dead ends</h2>
+<p>Support had advised me to update, but reinstalling the latest APK didn’t help. For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb install -r blockstream_green.apk
+</span></span><span style="display:flex;"><span>adb.exe: failed to install .<span style="color:#ae81ff">\B</span>lockstreamGreen-v4.1.8-productionGoogle-release.apk: Failure <span style="color:#f92672">[</span>INSTALL_FAILED_USER_RESTRICTED: Install canceled by user<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>After enabling <strong>Allow USB installs</strong>, the reinstall worked:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb.exe install -r .<span style="color:#ae81ff">\B</span>lockstreamGreen-v4.1.8-productionGoogle-release.apk
+</span></span><span style="display:flex;"><span>Success
+</span></span></code></pre></div><p>But the crash persisted.</p>
+<p>At this point, I went beyond what support had suggested: try a downgrade.</p>
+<hr>
+<h2 id="step-5-downgrade-as-the-real-fix">Step 5: Downgrade as the real fix</h2>
+<p>Attempting to install v4.1.5 at first failed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb.exe install -r .<span style="color:#ae81ff">\B</span>lockstreamGreen-v4.1.5-productionGoogle-release.apk
+</span></span><span style="display:flex;"><span>adb.exe: failed to install .<span style="color:#ae81ff">\B</span>lockstreamGreen-v4.1.5-productionGoogle-release.apk: Failure <span style="color:#f92672">[</span>INSTALL_FAILED_VERSION_DOWNGRADE<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>Solution: add the <code>-d</code> flag to force a downgrade.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb.exe install -r -d .<span style="color:#ae81ff">\B</span>lockstreamGreen-v4.1.5-productionGoogle-release.apk
+</span></span><span style="display:flex;"><span>Performing Streamed Install
+</span></span><span style="display:flex;"><span>Success
+</span></span></code></pre></div><p>And just like that: the older version opened successfully, my wallet loaded, and my Lightning funds were safe.</p>
+<hr>
+<h2 id="conclusion-what-i-learned">Conclusion: what I learned</h2>
+<ul>
+<li>
+<p><strong>Lightning is device-dependent.</strong> A seed phrase isn’t enough. Backups of the app state are critical.</p>
+</li>
+<li>
+<p><strong>Support isn’t always enough.</strong> The official team couldn’t resolve this issue — updating and backing up weren’t real fixes.</p>
+</li>
+<li>
+<p><strong>Logs point to answers.</strong> ADB logcat gave me the exact reason for the crash: a missing notification icon.</p>
+</li>
+<li>
+<p><strong>Downgrade = lifesaver.</strong> Reverting to v4.1.5 bypassed the bug and restored full access to my funds.</p>
+</li>
+<li>
+<p><strong>The relief is unforgettable.</strong> After hours of uncertainty, finally seeing my wallet open again was the moment I knew I had saved my Bitcoin from vanishing.</p>
+</li>
+</ul>
+<hr>
+<p>✨ This experience taught me to always back up, to follow the data, and not to rely solely on official fixes when dealing with critical funds. Sometimes, the only way forward is persistence, patience, and a willingness to get your hands dirty with the technical details.</p>
+]]></content></item><item><title>Monitoring to detect incidents</title><link>https://hhassen.github.io/posts/2021/12/monitoring-to-detect-incidents/</link><pubDate>Wed, 29 Dec 2021 10:10:23 +0200</pubDate><guid>https://hhassen.github.io/posts/2021/12/monitoring-to-detect-incidents/</guid><description>Recently, I have worked with a team developing a Spring Boot application. The application is deployed as a Java container in AWS and the logs are stored in Cloudwatch. The application was put behind an Nginx reverse proxy and Nginx logs are also stored in Cloudwatch. Every thing was going fine until they started adding new features that caused very high response times on the prod. Problems become more and more recurrent, developers were exhausted dealing with all this headache and users were very unsatisfied.</description><content type="html"><![CDATA[<p>Recently, I have worked with a team developing a Spring Boot application. The application is deployed as a Java container in AWS and the logs are stored in Cloudwatch.
 The application was put behind an Nginx reverse proxy and Nginx logs are also stored in Cloudwatch.
 <img src="https://raw.githubusercontent.com/hhassen/hhassen.github.io_source/master/resources/_gen/images/architecture.png" alt="application architecture"></p>
 <p>Every thing was going fine until they started adding new features that caused very high response times on the prod. Problems become more and more recurrent, developers were exhausted dealing with all this headache and users were very unsatisfied.</p>
