@@ -43,6 +43,13 @@ description = "Personal website by Hassen Harzallah"
 keywords = "homepage, blog, informatics, development, programming"
 images = [""]
 
+[author]
+  name = "Hassen Harzallah"
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+
 
 [permalinks]
   posts = "/posts/:year/:month/:title/"
@@ -58,6 +65,10 @@ images = [""]
 
   # Directory name of your blog content (default is `content/posts`)
   contentTypeName = "posts"
+  
+  # Twitter card configuration
+  twitter = ""
+  
   [params.logo]
     logoText     = "$ cd ~"
     logoHomeLink = "/"
