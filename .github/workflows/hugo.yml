@@ -13,4 +13,4 @@ jobs:
         fetch-depth: 0
 
     - name: hugo
-      uses: klakegg/actions-hugo@1.0.0
+      uses: klakegg/actions-hugo@ext-ubuntu-onbuild
