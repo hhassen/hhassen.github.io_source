@@ -67,7 +67,7 @@ jobs:
       - name: Upload validation artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hugo-site-validation
+          name: hugo-site-pr-${{ github.event.pull_request.number }}-${{ github.sha }}
           path: ./public
 
   # Build job
@@ -103,7 +103,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hugo-site
+          name: hugo-site-${{ github.sha }}
           path: ./public
 
   # Deployment job
@@ -120,7 +120,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: hugo-site
+          name: hugo-site-${{ github.sha }}
           path: ./public
       
       - name: Deploy to GitHub Pages repository
