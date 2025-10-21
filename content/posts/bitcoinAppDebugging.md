@@ -3,7 +3,6 @@ title: "My Bitcoins almost disappeared forever: Fixing a Crashing Blockstream Gr
 date: 2025-09-11T10:00:00Z
 draft: false
 tags: ["bitcoin", "android", "debugging"]
-categories: ["Crypto", "Guides"]
 description: "A step-by-step walkthrough of how I rescued my Bitcoin Lightning funds from a crashing Blockstream Green app using backups, ADB logs, and a version downgrade."
 ---
 
