@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  build:
+    image: klakegg/hugo:ext-ubuntu-onbuild
+    volumes:
+      - ".:/src"
+  server:
+    image: klakegg/hugo:ext-ubuntu-onbuild
+    command: server
+    volumes:
+      - ".:/src"
+    ports:
+      - "1313:1313"
